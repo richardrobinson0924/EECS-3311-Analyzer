@@ -34,6 +34,8 @@ feature -- Queries
 			end
 		end
 
+	exp: EXPRESSION
+
 feature {NONE} -- Initialization
 
 	make(lclass_: LOUVRE_CLASS; fn: STRING; ps: ARRAY[TUPLE[pn: STRING; ft: STRING]])
@@ -42,6 +44,8 @@ feature {NONE} -- Initialization
 			lclass := lclass_
 			command_name := fn
 			parameters := ps
+
+			create exp.make (create {LOUVRE_OPERATOR}.make_operator ("+", {LOUVRE_TYPE}.louvre_boolean_type, {LOUVRE_TYPE}.louvre_boolean_type))
 		end
 
 end

@@ -25,11 +25,19 @@ feature
 	operator: LOUVRE_OPERATOR
 
 	set_next_null_operand_to(newOperand: LOUVRE_OPERAND)
-		local
-			e: EXPRESSION
 		do
-			if attached {EXPRESSION} left as left_expression then
-
+			if left = Void then
+				left := newOperand
+			elseif attached {EXPRESSION} left as left_expression then
+				if not left_expression.is_complete then
+					left_expression.set_next_null_operand_to(newOperand)
+				else
+					right := newOperand
+				end
+			elseif right = Void then
+				left := newOperand
+			elseif attached {EXPRESSION} right as right_expression then
+				right_expression.set_next_null_operand_to(newOperand)
 			end
 		end
 
@@ -37,8 +45,16 @@ feature
 
 	is_complete: BOOLEAN
 		do
-			if attached {EXPRESSIO then
+			Result := True
 
+			if left = Void then
+				Result := False
+			elseif attached {EXPRESSION} left as left_expression then
+				Result := left_expression.is_complete
+			elseif right = Void then
+				Result := False
+			elseif attached {EXPRESSION} right as right_expression then
+				Result := right_expression.is_complete
 			end
 		end
 
