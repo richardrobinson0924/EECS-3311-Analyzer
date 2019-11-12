@@ -6,15 +6,18 @@ note
 
 class
 	ETF_ADD_ATTRIBUTE
-inherit 
+inherit
 	ETF_ADD_ATTRIBUTE_INTERFACE
 create
 	make
-feature -- command 
+feature -- command
 	add_attribute(cn: STRING ; fn: STRING ; ft: STRING)
-		require else 
+		require else
 			add_attribute_precond(cn, fn, ft)
-    	do
+    		do
+    			check attached model.classes[cn] as c then
+				c.attributes.put (create {LOUVRE_ATTRIBUTE}.make (c, fn, ft), fn);
+			end
 			-- perform some update on the model state
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])

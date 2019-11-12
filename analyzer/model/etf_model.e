@@ -22,11 +22,16 @@ feature {NONE} -- Initialization
 		do
 			create s.make_empty
 			i := 0
+			create classes.make(0)
 		end
 
 feature -- model attributes
 	s : STRING
 	i : INTEGER
+
+	classes: HASH_TABLE[LOUVRE_CLASS, STRING]
+
+	current_instruction: detachable LOUVRE_ASSIGNMENT_INSTRUCTION
 
 feature -- model operations
 	default_update
@@ -39,6 +44,14 @@ feature -- model operations
 			-- Reset model state.
 		do
 			make
+		end
+
+	add_class(cn: STRING)
+		require
+			class_name_doesnt_exist: classes[cn] = Void
+			no_current_instruction: current_instruction = Void
+		do
+			classes.put (create {LOUVRE_CLASS}.make (cn), cn)
 		end
 
 feature -- queries
