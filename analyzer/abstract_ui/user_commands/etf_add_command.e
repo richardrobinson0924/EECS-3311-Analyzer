@@ -16,9 +16,10 @@ feature -- command
 			add_command_precond(cn, fn, ps)
     	do
 			-- perform some update on the model state
-			check attached model.classes[cn] as c then
-				c.commands.put (create {LOUVRE_COMMAND}.make (c, fn, ps), fn);
+			if attached model.current_instruction as ci then
+				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
 			end
+
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])
     	end

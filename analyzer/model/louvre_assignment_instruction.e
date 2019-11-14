@@ -6,38 +6,23 @@ note
 
 class
 	LOUVRE_ASSIGNMENT_INSTRUCTION
-inherit
-	ANY
-	redefine out end
 
 create
 	make
 
 feature -- Queries
-	lclass: LOUVRE_CLASS
-	lcommand: LOUVRE_COMMAND
 	var: STRING
-
-	out: STRING
-		do
-			create Result.make_from_string("");
-			Result := Result + "  Routine currently being implemented: {" + lclass.name.out + "}." + lcommand.command_name.out + "%N"
-			Result := Result + "  Assignment being specified: " + expression + "%N"
-		end
-
-	expression: STRING
+	routine: LOUVRE_ROUTINE
+	lclass: LOUVRE_CLASS
 
 feature {NONE} -- Initialization
 
-	make(lclass_: LOUVRE_CLASS; lcommand_: LOUVRE_COMMAND; var_: STRING)
+	make(lclass_: LOUVRE_CLASS; routine_: LOUVRE_ROUTINE; var_: STRING)
 			-- Initialization for `Current'.
 		do
-			lclass := lclass_
-			lcommand := lcommand_
 			var := var_
-
-
-			expression := "" + var + " := ?"
+			routine := routine_
+			lclass := lclass_
 		end
 
 end

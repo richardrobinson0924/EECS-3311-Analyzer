@@ -20,30 +20,33 @@ feature {NONE} -- Initialization
 	make
 			-- Initialization for `Current'.
 		do
-			create s.make_empty
-			i := 0
 			create classes.make(0)
+			status := ""
 		end
 
 feature -- model attributes
-	s : STRING
-	i : INTEGER
-
 	classes: HASH_TABLE[LOUVRE_CLASS, STRING]
 
 	current_instruction: detachable LOUVRE_ASSIGNMENT_INSTRUCTION
+
+feature {NONE}
+	status: STRING
 
 feature -- model operations
 	default_update
 			-- Perform update to the model state.
 		do
-			i := i + 1
 		end
 
 	reset
 			-- Reset model state.
 		do
 			make
+		end
+
+	set_current_instruction(i: detachable LOUVRE_ASSIGNMENT_INSTRUCTION)
+		do
+			current_instruction := i
 		end
 
 	add_class(cn: STRING)
@@ -54,18 +57,29 @@ feature -- model operations
 			classes.put (create {LOUVRE_CLASS}.make (cn), cn)
 		end
 
+	add_command(cn: STRING ; command_name: STRING ; ps: ARRAY[TUPLE[pn: STRING; ft: STRING]])
+		do
+			check attached classes[cn] as clazz then
+				clazz.commands.put (create {LOUVRE_COMMAND}.make (clazz, command_name, ps), command_name);
+			end
+		end
+
+
+
+	set_status(s: STRING)
+		do
+
+		end
+
 feature -- queries
 	out : STRING
 		do
-			create Result.make_from_string ("  ")
-			Result.append ("System State: default model state ")
-			Result.append ("(")
-			Result.append (i.out)
-			Result.append (")")
+			Result := "  Status: " + status + "%N"
+			Result := Result + "  Number of classes being specified: " + classes.count.out + "%N"
+
+			across classes is c loop
+				Result := Result + c.out
+			end
 		end
 
 end
-
-
-
-

@@ -7,19 +7,20 @@ note
 class
 	LOUVRE_COMMAND
 inherit
-	ANY redefine out end
+	LOUVRE_ROUTINE redefine out end
 
 create
 	make
 
 feature -- Queries
 	lclass: LOUVRE_CLASS
-	command_name: STRING
 	parameters: ARRAY[TUPLE[name: STRING; type: STRING]]
+
+	name: STRING
 
 	out: STRING
 		do
-			create Result.make_from_string("        " + "+ " + command_name)
+			create Result.make_from_string("        " + "+ " + name)
 			if parameters.count > 0 then
 				Result := Result  + "(";
 
@@ -34,7 +35,7 @@ feature -- Queries
 			end
 		end
 
-	exp: EXPRESSION
+	assignment_instructions: ARRAYED_LIST[LOUVRE_ASSIGNMENT_INSTRUCTION]
 
 feature {NONE} -- Initialization
 
@@ -42,10 +43,10 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 		do
 			lclass := lclass_
-			command_name := fn
+			name := fn
 			parameters := ps
 
-			create exp.make (create {LOUVRE_OPERATOR}.make_operator ("+", {LOUVRE_TYPE}.louvre_boolean_type, {LOUVRE_TYPE}.louvre_boolean_type))
+			create assignment_instructions.make(0)
 		end
 
 end

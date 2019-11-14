@@ -1,0 +1,1 @@
+diff ("C:\Users\rir\Desktop\chess_solitaire - Copy\chess_solitaire\EIFGENs\chess_solitaire\W_code\chess_solitaire.exe" C:\Users\rir\Downloads\chess_solitaire_undo\chess_solitaire_undo\at$1.txt) 

@@ -15,9 +15,41 @@ create
 
 feature -- Queries
 	name: STRING
+
 	attributes: HASH_TABLE[LOUVRE_ATTRIBUTE, STRING]
+		do
+			create Result.make (0)
+
+			across routines as routine loop
+				if attached {LOUVRE_ATTRIBUTE} routine.item as r then
+					Result.put(r, routine.key)
+				end
+			end
+		end
+
 	queries: HASH_TABLE[LOUVRE_QUERY, STRING]
+		do
+			create Result.make (0)
+
+			across routines as routine loop
+				if attached {LOUVRE_QUERY} routine.item as r then
+					Result.put(r, routine.key)
+				end
+			end
+		end
+
 	commands: HASH_TABLE[LOUVRE_COMMAND, STRING]
+		do
+			create Result.make (0)
+
+			across routines as routine loop
+				if attached {LOUVRE_COMMAND} routine.item as r then
+					Result.put(r, routine.key)
+				end
+			end
+		end
+
+	routines: HASH_TABLE[LOUVRE_ROUTINE, STRING]
 
 	out: STRING
 		do
@@ -44,9 +76,7 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 		do
 			name := name_
-			create attributes.make (0)
-			create queries.make (0)
-			create commands.make (0)
+			create routines.make (0)
 		end
 
 end

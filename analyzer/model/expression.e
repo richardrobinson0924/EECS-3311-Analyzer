@@ -60,7 +60,25 @@ feature
 
 	out: STRING
 		do
-			create Result.make_from_string("")
+			create Result.make_from_string("(")
+
+			if attached left as left_attached then
+				Result := Result + left_attached.out
+			else
+				Result := Result + "nil"
+			end
+
+			Result := Result + " " + operator.out + " "
+
+			if attached right as right_attached then
+				Result := Result + right_attached.out
+			else
+				Result := Result + "nil"
+			end
+
+			Result := Result + ")"
+
+			Result.replace_substring("?", Result.index_of ('n', 0), Result.index_of ('n', 0) + 3)
 		end
 
 feature {NONE} -- Initialization
