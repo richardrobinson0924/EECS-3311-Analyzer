@@ -6,23 +6,31 @@ note
 
 class
 	LOUVRE_ATTRIBUTE
+inherit
+	LOUVRE_ROUTINE redefine out end
 
 create
 	make
 
 feature
-	attribute_name: STRING
-	type_name: STRING
+	type_class: LOUVRE_CLASS
 	lclass: LOUVRE_CLASS
+
+	out: STRING
+		do
+			Result := "        " + "+ " + name + ": " + type_class.name
+		end
 
 feature {NONE} -- Initialization
 
-	make(lclass_: LOUVRE_CLASS; attribute_name_, type_name_: STRING)
+	make(lclass_: LOUVRE_CLASS; attribute_name_: STRING; type_class_: LOUVRE_CLASS)
 			-- Initialization for `Current'.
 		do
 			lclass := lclass_
-			attribute_name := attribute_name_
-			type_name := type_name_
+			name := attribute_name_
+			type_class := type_class_
+
+			create assignment_instructions.make (0)
 		end
 
 end

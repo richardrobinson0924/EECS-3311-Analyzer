@@ -16,8 +16,6 @@ feature -- Queries
 	lclass: LOUVRE_CLASS
 	parameters: ARRAY[TUPLE[name: STRING; type: STRING]]
 
-	name: STRING
-
 	out: STRING
 		do
 			create Result.make_from_string("        " + "+ " + name)
@@ -34,8 +32,6 @@ feature -- Queries
 				Result := Result + ")"
 			end
 		end
-
-	assignment_instructions: ARRAYED_LIST[LOUVRE_ASSIGNMENT_INSTRUCTION]
 
 feature {NONE} -- Initialization
 

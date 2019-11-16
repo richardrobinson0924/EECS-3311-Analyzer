@@ -1,0 +1,4 @@
+add_class("A")
+add_class("A")
+add_attribute("B", "att", "INTEGER")
+add_command("B", "c", <<>>)

@@ -15,6 +15,19 @@ feature -- Queries
 	routine: LOUVRE_ROUTINE
 	lclass: LOUVRE_CLASS
 
+	expression: detachable EXPRESSION
+
+	to_string: STRING
+		do
+			Result := "" + var + " := "
+
+			if attached expression as ae then
+				Result := Result + ae.out
+			else
+				Result := Result + "?"
+			end
+		end
+
 feature {NONE} -- Initialization
 
 	make(lclass_: LOUVRE_CLASS; routine_: LOUVRE_ROUTINE; var_: STRING)

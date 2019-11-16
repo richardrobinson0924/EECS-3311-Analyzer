@@ -6,9 +6,6 @@ note
 
 class
 	LOUVRE_CLASS
-inherit
-	ANY
-	redefine out end
 
 create
 	make
@@ -51,14 +48,14 @@ feature -- Queries
 
 	routines: HASH_TABLE[LOUVRE_ROUTINE, STRING]
 
-	out: STRING
+	to_string: STRING
 		do
 			create Result.make_from_string("")
 			Result := Result + "    " + name + "%N"
 			Result := Result + "      " + "Number of attributes: " + attributes.count.out + "%N"
 
 			across attributes as att loop
-				Result := Result + "        " + "+ " + att.key + ": " + att.item.type_name + "%N";
+				Result := Result + att.out + "%N";
 			end
 
 			Result := Result + "      " + "Number of commands: " + attributes.count.out + "%N"

@@ -9,9 +9,7 @@ deferred class
 
 feature
 	name: STRING
-		deferred end
 
 	assignment_instructions: ARRAYED_LIST[LOUVRE_ASSIGNMENT_INSTRUCTION]
-		deferred end
 
 end

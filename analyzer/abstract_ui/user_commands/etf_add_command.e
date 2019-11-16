@@ -18,6 +18,10 @@ feature -- command
 			-- perform some update on the model state
 			if attached model.current_instruction as ci then
 				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
+			elseif model.classes[cn] = Void then
+				model.set_status ("Error (Class does not exist")
+			else
+				model.add_command (cn, fn, ps)
 			end
 
 			model.default_update

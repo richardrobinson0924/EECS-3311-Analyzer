@@ -7,13 +7,11 @@ note
 class
 	LOUVRE_TYPE
 inherit
-	ANY redefine out, is_equal end
+	LOUVRE_CLASS redefine is_equal end
 
 create {LOUVRE_TYPE} make_enum
 
 feature
-	out: STRING
-
 	is_equal(other: like Current): BOOLEAN
 		do
 			Result := out.is_equal(other.out)
@@ -44,7 +42,8 @@ feature
 
 	make_enum(s: STRING)
 		do
-			out := s
+			name := s
+			create routines.make (0)
 		end
 
 

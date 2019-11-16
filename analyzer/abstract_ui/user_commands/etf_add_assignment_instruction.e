@@ -15,12 +15,16 @@ feature -- command
 		require else
 			add_assignment_instruction_precond(cn, fn, n)
     	do
-			-- perform some update on the model state
-			check attached model.classes[cn] as clazz and then attached clazz.routines[fn] as routine then
-				routine.assignment_instructions.extend(create {LOUVRE_ASSIGNMENT_INSTRUCTION}.make (clazz, routine, n))
-				model.set_current_instruction (routine.assignment_instructions.last)
-			end
-
+    		if attached model.classes[cn] as clazz then
+    			if attached clazz.routines[fn] as routine then
+    				routine.assignment_instructions.extend(create {LOUVRE_ASSIGNMENT_INSTRUCTION}.make (clazz, routine, n))
+					model.set_current_instruction (routine.assignment_instructions.last)
+				else
+					model.set_status ("Error (" + fn + " is not an existing feature name in class " + cn + ").")
+    			end
+    		else
+    			model.set_status ("Error (Class " + cn + "is not an existing class)")
+    		end
 
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])

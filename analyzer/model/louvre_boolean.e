@@ -15,6 +15,11 @@ create
 feature
 	type: LOUVRE_TYPE
 
+	name: STRING
+		once
+			Result := "BOOLEAN"
+		end
+
 feature {NONE} -- Initialization
 
 	make(i: BOOLEAN)

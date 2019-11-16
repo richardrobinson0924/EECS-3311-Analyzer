@@ -13,12 +13,134 @@ create
 
 feature
 	symbol: STRING
-	operand_type: LOUVRE_TYPE
-	return_type: LOUVRE_TYPE
+	operand_type: LOUVRE_CLASS
+	return_type: LOUVRE_CLASS
+
+feature
+	addition: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"+",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_integer_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	subtraction: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"-",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_integer_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	modulo: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"%",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_integer_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	quotient: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"/",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_integer_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	multiplication: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"/",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_integer_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	conjunction: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"||",
+				{LOUVRE_TYPE}.louvre_boolean_type,
+				{LOUVRE_TYPE}.louvre_boolean_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	disjunction: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"&&",
+				{LOUVRE_TYPE}.louvre_boolean_type,
+				{LOUVRE_TYPE}.louvre_boolean_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	less_than: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"<",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_boolean_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	greater_than: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				">",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_boolean_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	bool_equals: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"/",
+				{LOUVRE_TYPE}.louvre_boolean_type,
+				{LOUVRE_TYPE}.louvre_boolean_type
+			)
+		ensure
+			instance_free: class
+		end
+
+	int_equals: LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_operator (
+				"/",
+				{LOUVRE_TYPE}.louvre_integer_type,
+				{LOUVRE_TYPE}.louvre_boolean_type
+			)
+		ensure
+			instance_free: class
+		end
 
 feature {NONE} -- Initialization
 
-	make_operator(name: STRING; operand_type_: LOUVRE_TYPE; return_type_: LOUVRE_TYPE)
+	make_operator(name: STRING; operand_type_: LOUVRE_CLASS; return_type_: LOUVRE_CLASS)
 			-- Initialization for `Current'.
 		do
 			symbol := name
