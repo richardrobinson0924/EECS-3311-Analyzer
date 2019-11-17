@@ -15,17 +15,11 @@ feature -- Queries
 	routine: LOUVRE_ROUTINE
 	lclass: LOUVRE_CLASS
 
-	expression: detachable EXPRESSION
+	expression: LOUVRE_EXPRESSION
 
 	to_string: STRING
 		do
-			Result := "" + var + " := "
-
-			if attached expression as ae then
-				Result := Result + ae.out
-			else
-				Result := Result + "?"
-			end
+			Result := "" + var + " := " + expression.out
 		end
 
 feature {NONE} -- Initialization
@@ -36,6 +30,8 @@ feature {NONE} -- Initialization
 			var := var_
 			routine := routine_
 			lclass := lclass_
+
+			expression := create {LOUVRE_ATOMIC_EXPRESSION}.make
 		end
 
 end

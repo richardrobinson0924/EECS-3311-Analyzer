@@ -22,7 +22,7 @@ feature -- command
 				model.set_status ("Error (" + cn + " is already an existing class name).")
 			else
 				model.add_class(cn)
-				model.set_status("OK")
+				model.set_status("OK.")
 			end
 
 			model.default_update

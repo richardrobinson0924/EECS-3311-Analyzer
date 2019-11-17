@@ -24,7 +24,8 @@ feature {NONE} -- Initialization
 			classes.extend ({LOUVRE_TYPE}.louvre_boolean_type, "BOOLEAN")
 			classes.extend ({LOUVRE_TYPE}.louvre_integer_type, "INTEGER")
 
-			status := ""
+			current_instruction := Void
+			status := "OK."
 		end
 
 feature -- model attributes
@@ -56,6 +57,60 @@ feature -- model operations
 			make
 		end
 
+	duplicate_names(ps: ARRAY[TUPLE[pn: STRING; ft: ANY]]): LINKED_LIST[STRING]
+		do
+			create Result.make
+			across ps is tuple loop Result.extend (tuple.pn)  end
+
+			from
+			until across Result is s all occurances(Result, s) <= 1 end
+			loop
+				across Result as s loop
+					if occurances(Result, s.item) > 1 then
+						Result.prune (s.item)
+					end
+				end
+			end
+
+		end
+
+	invalid_classes(ps: ITERABLE[TUPLE[pn: ANY; ft: STRING]]): LINKED_LIST[STRING]
+		do
+			create Result.make
+
+			across ps is tuple loop
+				if not classes.has (tuple.ft) then
+					Result.extend(tuple.ft)
+				end
+			end
+		end
+
+	occurances(list: ITERABLE[STRING]; s: STRING): INTEGER
+		local
+			count: INTEGER
+		do
+			count := 0
+
+			across list is element loop
+				if element ~ s then
+					count := count + 1
+				end
+			end
+
+			Result := count
+		end
+
+	clashing_names(parameters: ARRAY[TUPLE[pn: STRING; pt: ANY]]): LINKED_LIST[STRING]
+		do
+			create Result.make
+
+			across parameters is tuple loop
+				if classes.has (tuple.pn) then
+					Result.extend(tuple.pn)
+				end
+			end
+		end
+
 	set_current_instruction(i: detachable LOUVRE_ASSIGNMENT_INSTRUCTION)
 		do
 			current_instruction := i
@@ -71,7 +126,8 @@ feature -- model operations
 
 	add_command(cn: STRING ; command_name: STRING ; ps: ARRAY[TUPLE[pn: STRING; ft: STRING]])
 		require
-			class_exists: classes[cn] /= Void
+			class_exists: classes.has (cn)
+			non_clashing_names: clashing_names(ps).count = 0
 		do
 			check attached classes[cn] as clazz then
 				clazz.routines.put (create {LOUVRE_COMMAND}.make (clazz, command_name, ps), command_name);
@@ -80,6 +136,7 @@ feature -- model operations
 
 	add_attribute(cn: LOUVRE_CLASS ; fn: STRING ; ft: LOUVRE_CLASS)
 		require
+			class_exists: classes.has (cn.name)
 			valid_type: classes.has (ft.name)
 			non_existing_feature: not classes.has (fn)
 		do
@@ -90,6 +147,7 @@ feature -- model operations
 		require
 			valid_type: classes.has (rt.name)
 			non_existing_feature: not classes.has (fn)
+			non_clashing_names: clashing_names(ps).count = 0
 		do
 			cn.routines.put (create {LOUVRE_QUERY}.make (cn, fn, ps, rt), fn);
 		end
@@ -114,6 +172,8 @@ feature -- queries
 				Result := Result + "  Routine currently being implemented: {" + aci.lclass.name + "}." + aci.routine.name + "%N"
 				Result := Result + "  Assignment being specified: " + aci.to_string + "%N"
 			end
+
+			Result.remove (Result.count)
 		end
 
 end

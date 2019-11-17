@@ -13,9 +13,9 @@ create
 feature -- command
 	type_check
     	do
-    		if model.current_instruction /= Void then
-				model.set_status("Error (An assignment instruction is currently being specified).")
-    		end
+    		if attached model.current_instruction as ci then
+				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
+			end
 
 			-- perform some update on the model state
 			model.default_update

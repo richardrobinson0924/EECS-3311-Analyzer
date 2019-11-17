@@ -1,23 +1,18 @@
 note
-	description: "Summary description for {EXPRESSION}."
+	description: "Summary description for {LOUVRE_BINARY_EXPRESSION}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	EXPRESSION
+	LOUVRE_BINARY_EXPRESSION
 inherit
-	LOUVRE_OPERAND redefine out end
+	LOUVRE_EXPRESSION redefine out end
 
 create
 	make
 
 feature
-	representation: STRING
-		do
-			create Result.make_from_string("")
-		end
-
 	left: detachable LOUVRE_OPERAND
 
 	right: detachable LOUVRE_OPERAND
@@ -28,7 +23,7 @@ feature
 		do
 			if left = Void then
 				left := newOperand
-			elseif attached {EXPRESSION} left as left_expression then
+			elseif attached {LOUVRE_EXPRESSION} left as left_expression then
 				if not left_expression.is_complete then
 					left_expression.set_next_null_operand_to(newOperand)
 				else
@@ -36,12 +31,10 @@ feature
 				end
 			elseif right = Void then
 				left := newOperand
-			elseif attached {EXPRESSION} right as right_expression then
+			elseif attached {LOUVRE_EXPRESSION} right as right_expression then
 				right_expression.set_next_null_operand_to(newOperand)
 			end
 		end
-
-	type: LOUVRE_TYPE
 
 	is_complete: BOOLEAN
 		do
@@ -49,11 +42,11 @@ feature
 
 			if left = Void then
 				Result := False
-			elseif attached {EXPRESSION} left as left_expression then
+			elseif attached {LOUVRE_EXPRESSION} left as left_expression then
 				Result := left_expression.is_complete
 			elseif right = Void then
 				Result := False
-			elseif attached {EXPRESSION} right as right_expression then
+			elseif attached {LOUVRE_EXPRESSION} right as right_expression then
 				Result := right_expression.is_complete
 			end
 		end

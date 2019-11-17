@@ -15,6 +15,8 @@ feature -- command
     	do
     		if model.current_instruction = Void then
 				model.set_status("Error (An assignment instruction is not currently being specified).")
+			elseif chain.count = 0 then
+				model.set_status ("Error (Call chain is empty).")
     		end
 			-- perform some update on the model state
 

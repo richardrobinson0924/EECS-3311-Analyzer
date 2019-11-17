@@ -139,6 +139,15 @@ feature
 				overloaded_type,
 				overloaded_type
 			)
+		ensure
+			instance_free: class
+		end
+
+	identity(t: LOUVRE_CLASS): LOUVRE_OPERATOR
+		once
+			Result := create {LOUVRE_OPERATOR}.make_unary_operator ("", t, t)
+		ensure
+			instance_free: class
 		end
 
 feature {NONE} -- Initialization

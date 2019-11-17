@@ -54,11 +54,17 @@ feature -- Queries
 			Result := Result + "    " + name + "%N"
 			Result := Result + "      " + "Number of attributes: " + attributes.count.out + "%N"
 
-			across attributes as att loop
+			across attributes is att loop
 				Result := Result + att.out + "%N";
 			end
 
-			Result := Result + "      " + "Number of commands: " + attributes.count.out + "%N"
+			Result := Result + "      " + "Number of queries: " + queries.count.out + "%N"
+
+			across queries is query loop
+				Result := Result + query.out + "%N";
+			end
+
+			Result := Result + "      " + "Number of commands: " + commands.count.out + "%N"
 
 			across commands is command loop
 				Result := Result + command.out + "%N"

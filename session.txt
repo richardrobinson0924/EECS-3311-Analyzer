@@ -1,4 +1,4 @@
 add_class("A")
-add_class("A")
-add_attribute("B", "att", "INTEGER")
-add_command("B", "c", <<>>)
+add_class("B")
+add_command("A","ca",<<["A", "INTEGER"], ["B", "BOOLEAN"]>>)
+add_query("B","cb",<<["INTEGER", "A"], ["BOOLEAN", "B"]>>,"INTEGER")
