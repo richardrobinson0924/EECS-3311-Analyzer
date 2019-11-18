@@ -4,7 +4,6 @@ add_command("A","set_i",<<["x", "INTEGER"], ["y", "INTEGER"]>>)
 add_assignment_instruction("A","set_i","i")
 multiplication
 addition
-addition
-subtraction
 bool_value(True)
 bool_value(False)
+bool_value(True)
