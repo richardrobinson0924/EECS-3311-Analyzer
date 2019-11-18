@@ -6,4 +6,3 @@ multiplication
 addition
 bool_value(True)
 bool_value(False)
-bool_value(True)

@@ -79,7 +79,13 @@ feature
 			if attached right as right_attached then
 				Result := Result + right_attached.to_string
 			else
-				Result := Result + "nil"
+				if left = Void then
+					Result := Result + "nil"
+				elseif attached {LOUVRE_EXPRESSION} left as lel and then not lel.is_complete then
+					Result := Result + "nil"
+				else
+					Result := Result + "?"
+				end
 			end
 
 			Result := Result + ")"
