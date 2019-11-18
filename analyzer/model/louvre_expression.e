@@ -10,7 +10,6 @@ inherit
 	LOUVRE_OPERAND
 
 feature
-	type: LOUVRE_TYPE
 
 	to_string: STRING
 		deferred end

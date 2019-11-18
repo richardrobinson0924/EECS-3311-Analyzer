@@ -8,9 +8,6 @@ deferred class
 	LOUVRE_OPERAND
 
 feature
-	type: LOUVRE_TYPE
-	deferred end
-
 	to_string: STRING
 	deferred end
 

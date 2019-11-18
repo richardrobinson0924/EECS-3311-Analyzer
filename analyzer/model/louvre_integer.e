@@ -13,7 +13,10 @@ create
 	make
 
 feature
-	type: LOUVRE_TYPE
+	name: STRING
+		once
+			Result := "INTEGER"
+		end
 
 feature {NONE} -- Initialization
 
@@ -21,7 +24,6 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 		do
 			value := i
-			type := {LOUVRE_TYPE}.louvre_integer_type
 		end
 
 end

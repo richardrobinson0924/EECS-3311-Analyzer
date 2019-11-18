@@ -54,7 +54,6 @@ feature {NONE} -- Initialization
 	make
 			-- Initialization for `Current'.
 		do
-			type := {LOUVRE_TYPE}.louvre_expression_type
 		end
 
 end

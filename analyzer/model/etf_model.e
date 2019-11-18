@@ -21,8 +21,8 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 		do
 			create classes.make(0)
-			classes.extend ({LOUVRE_TYPE}.louvre_boolean_type, "BOOLEAN")
-			classes.extend ({LOUVRE_TYPE}.louvre_integer_type, "INTEGER")
+			classes.extend (create {LOUVRE_CLASS}.make ("INTEGER"), "INTEGER")
+			classes.extend (create {LOUVRE_CLASS}.make ("BOOLEAN"), "BOOLEAN")
 
 			current_instruction := Void
 			status := "OK."

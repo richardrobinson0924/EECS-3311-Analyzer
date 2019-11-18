@@ -10,6 +10,8 @@ class
 create
 	make_operator, make_unary_operator
 
+feature
+	access: CLASS_POOL_ACCESS
 
 feature
 	symbol: STRING
@@ -27,8 +29,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"+",
-				{LOUVRE_TYPE}.louvre_integer_type,
-				{LOUVRE_TYPE}.louvre_integer_type
+				access.pool["INTEGER"],
+				access.pool["INTEGER"]
 			)
 		ensure
 			instance_free: class
@@ -38,8 +40,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"-",
-				{LOUVRE_TYPE}.louvre_integer_type,
-				{LOUVRE_TYPE}.louvre_integer_type
+				access.pool["INTEGER"],
+				access.pool["INTEGER"]
 			)
 		ensure
 			instance_free: class
@@ -49,8 +51,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"%%",
-				{LOUVRE_TYPE}.louvre_integer_type,
-				{LOUVRE_TYPE}.louvre_integer_type
+				access.pool["INTEGER"],
+				access.pool["INTEGER"]
 			)
 		ensure
 			instance_free: class
@@ -60,8 +62,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"/",
-				{LOUVRE_TYPE}.louvre_integer_type,
-				{LOUVRE_TYPE}.louvre_integer_type
+				access.pool["INTEGER"],
+				access.pool["INTEGER"]
 			)
 		ensure
 			instance_free: class
@@ -71,8 +73,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"*",
-				{LOUVRE_TYPE}.louvre_integer_type,
-				{LOUVRE_TYPE}.louvre_integer_type
+				access.pool.get("INTEGER"),
+				access.pool.get("INTEGER")
 			)
 		ensure
 			instance_free: class
@@ -82,8 +84,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"||",
-				{LOUVRE_TYPE}.louvre_boolean_type,
-				{LOUVRE_TYPE}.louvre_boolean_type
+				access.pool.get("BOOLEAN"),
+				access.pool.get("BOOLEAN")
 			)
 		ensure
 			instance_free: class
@@ -93,8 +95,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"&&",
-				{LOUVRE_TYPE}.louvre_boolean_type,
-				{LOUVRE_TYPE}.louvre_boolean_type
+				access.pool.get("BOOLEAN"),
+				access.pool.get("BOOLEAN")
 			)
 		ensure
 			instance_free: class
@@ -104,8 +106,8 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"<",
-				{LOUVRE_TYPE}.louvre_integer_type,
-				{LOUVRE_TYPE}.louvre_boolean_type
+				access.pool.get("INTEGER"),
+				access.pool.get("BOOLEAN")
 			)
 		ensure
 			instance_free: class
@@ -115,29 +117,25 @@ feature
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				">",
-				{LOUVRE_TYPE}.louvre_integer_type,
-				{LOUVRE_TYPE}.louvre_boolean_type
+				access.pool.get("INTEGER"),
+				access.pool.get("BOOLEAN")
 			)
 		ensure
 			instance_free: class
 		end
 
-	equals(overloaded_type: LOUVRE_TYPE): LOUVRE_OPERATOR
-		require
-			int_or_bool: overloaded_type.is_equal ({LOUVRE_TYPE}.louvre_boolean_type) or overloaded_type.is_equal ({LOUVRE_TYPE}.louvre_integer_type)
+	equals(overloaded_type: LOUVRE_ATOMIC_OPERAND[ANY]): LOUVRE_OPERATOR
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"=",
 				overloaded_type,
-				{LOUVRE_TYPE}.louvre_boolean_type
+				access.pool.get("BOOLEAN")
 			)
 		ensure
 			instance_free: class
 		end
 
-	negation(overloaded_type: LOUVRE_TYPE): LOUVRE_OPERATOR
-		require
-			int_or_bool: overloaded_type.is_equal ({LOUVRE_TYPE}.louvre_boolean_type) or overloaded_type.is_equal ({LOUVRE_TYPE}.louvre_integer_type)
+	negation(overloaded_type: LOUVRE_ATOMIC_OPERAND[ANY]): LOUVRE_OPERATOR
 		once
 			Result := create {LOUVRE_OPERATOR}.make_unary_operator (
 				"~",

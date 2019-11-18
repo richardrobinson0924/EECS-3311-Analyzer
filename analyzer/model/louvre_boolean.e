@@ -10,23 +10,16 @@ inherit
 	LOUVRE_ATOMIC_OPERAND[BOOLEAN]
 
 create
-	make
-
-feature
-	type: LOUVRE_TYPE
-
-	name: STRING
-		once
-			Result := "BOOLEAN"
-		end
+	make_value
 
 feature {NONE} -- Initialization
 
-	make(i: BOOLEAN)
+	make_value(i: BOOLEAN)
 			-- Initialization for `Current'.
 		do
 			value := i
-			type := {LOUVRE_TYPE}.louvre_boolean_type
+			name := "BOOLEAN"
+			create routines.make (0)
 		end
 
 end

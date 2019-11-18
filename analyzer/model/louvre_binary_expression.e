@@ -104,8 +104,6 @@ feature {NONE} -- Initialization
 			operator := operator_
 			left := Void
 			right := Void
-
-			type := {LOUVRE_TYPE}.louvre_expression_type
 		end
 
 end
