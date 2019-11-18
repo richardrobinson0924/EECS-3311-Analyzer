@@ -10,8 +10,6 @@ class
 create
 	make_operator, make_unary_operator
 
-feature
-	access: CLASS_POOL_ACCESS
 
 feature
 	symbol: STRING
@@ -26,105 +24,125 @@ feature
 
 feature
 	addition: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"+",
-				access.pool["INTEGER"],
-				access.pool["INTEGER"]
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	subtraction: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"-",
-				access.pool["INTEGER"],
-				access.pool["INTEGER"]
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	modulo: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"%%",
-				access.pool["INTEGER"],
-				access.pool["INTEGER"]
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	quotient: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"/",
-				access.pool["INTEGER"],
-				access.pool["INTEGER"]
+			access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	multiplication: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"*",
-				access.pool.get("INTEGER"),
-				access.pool.get("INTEGER")
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	conjunction: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"||",
-				access.pool.get("BOOLEAN"),
-				access.pool.get("BOOLEAN")
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	disjunction: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"&&",
-				access.pool.get("BOOLEAN"),
-				access.pool.get("BOOLEAN")
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	less_than: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"<",
-				access.pool.get("INTEGER"),
-				access.pool.get("BOOLEAN")
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	greater_than: LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				">",
-				access.pool.get("INTEGER"),
-				access.pool.get("BOOLEAN")
+				access.pool.get ("INTEGER"),
+				access.pool.get ("INTEGER")
 			)
 		ensure
 			instance_free: class
 		end
 
 	equals(overloaded_type: LOUVRE_ATOMIC_OPERAND[ANY]): LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
 				"=",
@@ -136,6 +154,8 @@ feature
 		end
 
 	negation(overloaded_type: LOUVRE_ATOMIC_OPERAND[ANY]): LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_unary_operator (
 				"~",
@@ -147,6 +167,8 @@ feature
 		end
 
 	identity(t: LOUVRE_CLASS): LOUVRE_OPERATOR
+		local
+			access: CLASS_POOL_ACCESS
 		once
 			Result := create {LOUVRE_OPERATOR}.make_unary_operator ("", t, t)
 		ensure
@@ -174,5 +196,7 @@ feature {NONE} -- Initialization
 
 			is_unary := True
 		end
+
+	make_call_chain_operator(
 
 end
