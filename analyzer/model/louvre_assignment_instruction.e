@@ -19,7 +19,7 @@ feature -- Queries
 
 	to_string: STRING
 		do
-			Result := "" + var + " := " + expression.out
+			Result := "" + var + " := " + expression.to_string
 		end
 
 feature {NONE} -- Initialization

@@ -17,6 +17,11 @@ feature
 	return_type: LOUVRE_CLASS
 	is_unary: BOOLEAN
 
+	to_string: STRING
+		do
+			Result := " " + symbol + " "
+		end
+
 feature
 	addition: LOUVRE_OPERATOR
 		once
@@ -65,7 +70,7 @@ feature
 	multiplication: LOUVRE_OPERATOR
 		once
 			Result := create {LOUVRE_OPERATOR}.make_operator (
-				"/",
+				"*",
 				{LOUVRE_TYPE}.louvre_integer_type,
 				{LOUVRE_TYPE}.louvre_integer_type
 			)

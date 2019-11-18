@@ -1,4 +1,10 @@
 add_class("A")
-add_class("B")
-add_command("A","ca",<<["A", "INTEGER"], ["B", "BOOLEAN"]>>)
-add_query("B","cb",<<["INTEGER", "A"], ["BOOLEAN", "B"]>>,"INTEGER")
+add_attribute("A","i","INTEGER")
+add_command("A","set_i",<<["x", "INTEGER"], ["y", "INTEGER"]>>)
+add_assignment_instruction("A","set_i","i")
+multiplication
+addition
+addition
+subtraction
+bool_value(True)
+bool_value(False)

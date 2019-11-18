@@ -8,7 +8,7 @@ class
 	LOUVRE_ATOMIC_EXPRESSION
 
 inherit
-	LOUVRE_EXPRESSION redefine out end
+	LOUVRE_EXPRESSION
 
 create
 	make
@@ -16,11 +16,11 @@ create
 feature
 	operand: detachable LOUVRE_OPERAND
 
-	out: STRING
+	to_string: STRING
 		do
-			Result := "nil"
+			Result := "?"
 			if attached operand as ao then
-				Result := ao.out
+				Result := ao.to_string
 			end
 		end
 

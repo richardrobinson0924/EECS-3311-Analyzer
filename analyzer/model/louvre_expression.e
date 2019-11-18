@@ -12,6 +12,9 @@ inherit
 feature
 	type: LOUVRE_TYPE
 
+	to_string: STRING
+		deferred end
+
 	set_next_null_operand_to(newOperand: LOUVRE_OPERAND)
 		require
 			incomplete: not is_complete

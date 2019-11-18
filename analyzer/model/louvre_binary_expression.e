@@ -7,7 +7,7 @@ note
 class
 	LOUVRE_BINARY_EXPRESSION
 inherit
-	LOUVRE_EXPRESSION redefine out end
+	LOUVRE_EXPRESSION
 
 create
 	make
@@ -51,27 +51,30 @@ feature
 			end
 		end
 
-	out: STRING
+	to_string: STRING
 		do
 			create Result.make_from_string("(")
 
 			if attached left as left_attached then
-				Result := Result + left_attached.out
+				Result := Result + left_attached.to_string
 			else
-				Result := Result + "nil"
+				Result := Result + "?"
 			end
 
-			Result := Result + " " + operator.out + " "
+			Result := Result + " " + operator.to_string + " "
 
 			if attached right as right_attached then
-				Result := Result + right_attached.out
+				Result := Result + right_attached.to_string
 			else
 				Result := Result + "nil"
 			end
 
 			Result := Result + ")"
+		end
 
-			Result.replace_substring("?", Result.index_of ('n', 0), Result.index_of ('n', 0) + 3)
+	to_string_alt: STRING
+		do
+			Result := ""
 		end
 
 feature {NONE} -- Initialization

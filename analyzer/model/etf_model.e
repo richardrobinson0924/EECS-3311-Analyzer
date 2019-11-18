@@ -57,18 +57,33 @@ feature -- model operations
 			make
 		end
 
-	duplicate_names(ps: ARRAY[TUPLE[pn: STRING; ft: ANY]]): LINKED_LIST[STRING]
+	duplicate_names(ps: ITERABLE[TUPLE[pn: STRING; ft: ANY]]): LINKED_LIST[STRING]
+		local
+			tmp: LINKED_SET[STRING]
+			copy_: LINKED_LIST[STRING]
 		do
-			create Result.make
-			across ps is tuple loop Result.extend (tuple.pn)  end
+			create tmp.make
+			create copy_.make
+			tmp.compare_objects
+			copy_.compare_objects
 
-			from
-			until across Result is s all occurances(Result, s) <= 1 end
-			loop
-				across Result as s loop
-					if occurances(Result, s.item) > 1 then
-						Result.prune (s.item)
-					end
+			across ps is tuple loop
+				tmp.extend (tuple.pn)
+				copy_.extend (tuple.pn)
+			end
+
+			across tmp is s loop
+				copy_.prune (s)
+			end
+
+			create Result.make_from_iterable (copy_)
+			Result.compare_objects
+
+			across 1 |..| copy_.count is i loop
+				from
+				until occurances(Result, copy_[i]) <= 1
+				loop
+					Result.prune(copy_[i])
 				end
 			end
 

@@ -13,9 +13,11 @@ create
 feature -- command
 	addition
     	do
-    		if model.current_instruction = Void then
-				model.set_status("Error (An assignment instruction is not currently being specified).")
-    		end
+    		if attached model.current_instruction as ci then
+				ci.expression.set_next_null_operand_to (create {LOUVRE_BINARY_EXPRESSION}.make ({LOUVRE_OPERATOR}.addition))
+			else
+				model.set_status ("Error (Assignment instruction not currently being specified).")
+			end
 			-- perform some update on the model state
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])

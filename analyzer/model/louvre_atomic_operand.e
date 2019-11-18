@@ -7,12 +7,12 @@ note
 deferred class
 	LOUVRE_ATOMIC_OPERAND[G -> ANY]
 inherit
-	LOUVRE_OPERAND redefine out end
+	LOUVRE_OPERAND
 
 feature -- Access
 	value: G
 
-	out: STRING
+	to_string: STRING
 		do
 			Result := value.out
 		end

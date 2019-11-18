@@ -7,7 +7,7 @@ note
 class
 	LOUVRE_UNARY_EXPRESSION
 inherit
-	LOUVRE_EXPRESSION redefine out end
+	LOUVRE_EXPRESSION
 
 create
 	make
@@ -18,11 +18,11 @@ feature
 	operator: LOUVRE_OPERATOR
 
 feature
-	out: STRING
+	to_string: STRING
 		do
-			Result := operator.out
+			Result := operator.to_string
 			if attached operand as ao then
-				Result := Result + ao.out
+				Result := Result + ao.to_string
 			else
 				Result := Result + "nil"
 			end
