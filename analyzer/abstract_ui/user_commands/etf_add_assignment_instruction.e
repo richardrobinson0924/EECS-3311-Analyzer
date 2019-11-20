@@ -17,7 +17,7 @@ feature -- command
     	do
     		if attached model.current_instruction as ci then
 				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
-			elseif attached model.classes[cn] as clazz then
+			elseif attached {CLASS_POOL_ACCESS}.pool.classes[cn] as clazz then
     			if attached {LOUVRE_ROUTINE} clazz.routines[fn] as routine then
     				if attached {LOUVRE_ATTRIBUTE} routine as att then
     					model.set_status ("Error (Attribute " + fn + " in class " + cn + " cannot be specified with an implementation).")
@@ -26,6 +26,7 @@ feature -- command
 						model.set_current_instruction (routine.assignment_instructions.last)
 
 						model.set_status ("OK.")
+						model.set_out (model.to_string)
     				end
 
 				else

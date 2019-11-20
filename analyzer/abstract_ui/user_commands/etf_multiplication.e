@@ -15,7 +15,9 @@ feature -- command
     	do
 			-- perform some update on the model state
 			if attached model.current_instruction as ci then
-				ci.expression.set_next_null_operand_to (create {LOUVRE_BINARY_EXPRESSION}.make ({LOUVRE_OPERATOR}.multiplication))
+				ci.expression.set_next_null_operand_to (create {LOUVRE_BINARY_EXPRESSION}.make ({LOUVRE_BINARY_OPERATOR}.multiplication))
+				model.set_status ("OK.")
+				model.set_out (model.to_string)
 			else
 				model.set_status ("Error (Assignment instruction not currently being specified).")
 			end

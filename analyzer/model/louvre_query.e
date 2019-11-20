@@ -7,15 +7,34 @@ note
 class
 	LOUVRE_QUERY
 inherit
-	LOUVRE_ROUTINE redefine out end
+	LOUVRE_RETURNABLE_ROUTINE redefine out end
 
 create
 	make
 
 feature
-	return_type: LOUVRE_CLASS
 	lclass: LOUVRE_CLASS
-	parameters: ARRAY[TUPLE[pn: STRING; pt: LOUVRE_CLASS]]
+
+	java_string: STRING
+		do
+			Result := "      " + return_type.name + " " + name + "("
+
+			across parameters as tuple loop
+				Result := Result + {CLASS_POOL_ACCESS}.pool.get_java_name (tuple.item.type) + " " + tuple.item.name
+
+				if tuple.cursor_index /= parameters.count then
+					Result := Result + ","
+				end
+			end
+
+			Result := Result + ") + {%N"
+
+			across assignment_instructions is ai loop
+				Result := Result + "        " + ai.java_string + "%N"
+			end
+
+			Result := Result + "}"
+		end
 
 	out: STRING
 		do
@@ -25,7 +44,7 @@ feature
 				Result := Result + "("
 
 				across parameters as p loop
-					Result := Result + p.item.pt.name
+					Result := Result + p.item.type.name
 					if p.cursor_index < parameters.count then
 						Result := Result + ";"
 					end

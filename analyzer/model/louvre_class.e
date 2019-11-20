@@ -13,6 +13,42 @@ create
 feature -- Queries
 	name: STRING
 
+	equals(other: like Current): BOOLEAN
+		do
+			Result := name ~ other.name
+		end
+
+	-- Here you go Aamna
+	-- Tips: you'll probs need a bunch of helper features
+	--       you'll need to access the class pool
+	invalid_assignment_instructions: LINKED_LIST[LOUVRE_ASSIGNMENT_INSTRUCTION]
+		local
+			lhs_type: LOUVRE_CLASS
+			rhs_type: LOUVRE_CLASS
+		do
+			create Result.make
+
+			across routines as routine loop
+				across routine.item.assignment_instructions as ai loop
+					if attached attributes[ai.item.var] as lhs_att then
+						-- good
+						lhs_type := lhs_att.return_type
+					else
+						Result.extend(ai.item)
+					end
+				end
+			end
+		end
+
+	get_type_of_expression(encapsulating_routine: LOUVRE_ROUTINE; expression: LOUVRE_EXPRESSION): LOUVRE_CLASS
+		do
+			if attached {LOUVRE_ATOMIC_EXPRESSION} expression as lae then
+				check attached lae.operand as op then
+					Result := op
+				end
+			end
+		end
+
 	attributes: HASH_TABLE[LOUVRE_ATTRIBUTE, STRING]
 		do
 			create Result.make (0)
@@ -70,6 +106,17 @@ feature -- Queries
 				Result := Result + command.out + "%N"
 			end
 
+		end
+
+	java_string: STRING
+		do
+			Result := "  class " + name + " {%N"
+
+			across routines as routine loop
+				Result := Result + routine.item.java_string + "%N"
+			end
+
+			Result := Result + "  }%N"
 		end
 
 

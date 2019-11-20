@@ -17,12 +17,13 @@ feature -- command
     	do
     		if attached model.current_instruction as ci then
 				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
-			elseif attached {LOUVRE_CLASS} model.classes[cn] as clazz then
+			elseif attached {LOUVRE_CLASS}  {CLASS_POOL_ACCESS}.pool.classes[cn] as clazz then
 				if clazz.routines.has (fn) then
 					model.set_status ("Error (" + fn + " is already an existing feature name in class " + cn + ").")
-				elseif attached model.classes[ft] as type then
+				elseif attached  {CLASS_POOL_ACCESS}.pool.classes[ft] as type then
 					model.add_attribute (clazz, fn, type)
 					model.set_status ("OK.")
+					model.set_out (model.to_string)
 				else
 					model.set_status ("Error (Return type does not refer to a primitive type or an existing class: " + ft + ").")
 				end

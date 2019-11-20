@@ -10,20 +10,16 @@ inherit
 	LOUVRE_ATOMIC_OPERAND[INTEGER]
 
 create
-	make
-
-feature
-	name: STRING
-		once
-			Result := "INTEGER"
-		end
+	make_with_value
 
 feature {NONE} -- Initialization
 
-	make(i: INTEGER)
+	make_with_value(i: INTEGER)
 			-- Initialization for `Current'.
 		do
 			value := i
+			name := "INTEGER"
+			create routines.make (0)
 		end
 
 end

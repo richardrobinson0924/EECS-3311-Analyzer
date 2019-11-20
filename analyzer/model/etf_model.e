@@ -20,16 +20,13 @@ feature {NONE} -- Initialization
 	make
 			-- Initialization for `Current'.
 		do
-			create classes.make(0)
-			classes.extend (create {LOUVRE_CLASS}.make ("INTEGER"), "INTEGER")
-			classes.extend (create {LOUVRE_CLASS}.make ("BOOLEAN"), "BOOLEAN")
-
 			current_instruction := Void
 			status := "OK."
+
+			set_out(to_string)
 		end
 
 feature -- model attributes
-	classes: HASH_TABLE[LOUVRE_CLASS, STRING]
 
 	current_instruction: detachable LOUVRE_ASSIGNMENT_INSTRUCTION
 
@@ -38,23 +35,43 @@ feature {NONE}
 
 feature -- model operations
 	user_classes: HASH_TABLE[LOUVRE_CLASS, STRING]
+		local
+			access: CLASS_POOL_ACCESS
 		do
 			create Result.make (0)
-			Result.copy (classes)
+			Result.copy (access.pool.classes)
 			Result.remove ("INTEGER")
 			Result.remove ("BOOLEAN")
+			Result.remove ("NONE")
 		end
 
 
 	default_update
 			-- Perform update to the model state.
 		do
+			set_out(to_string)
 		end
 
 	reset
 			-- Reset model state.
 		do
 			make
+		end
+
+	update_current_instruction
+		do
+			if attached current_instruction as ci and then ci.expression.is_complete then
+				current_instruction := Void
+			end
+		end
+
+	java_string: STRING
+		do
+			Result := ""
+
+			across user_classes is clazz loop
+				Result := Result + clazz.java_string
+			end
 		end
 
 	duplicate_names(ps: ITERABLE[TUPLE[pn: STRING; ft: ANY]]): LINKED_LIST[STRING]
@@ -94,7 +111,7 @@ feature -- model operations
 			create Result.make
 
 			across ps is tuple loop
-				if not classes.has (tuple.ft) then
+				if not  {CLASS_POOL_ACCESS}.pool.classes.has (tuple.ft) then
 					Result.extend(tuple.ft)
 				end
 			end
@@ -120,7 +137,7 @@ feature -- model operations
 			create Result.make
 
 			across parameters is tuple loop
-				if classes.has (tuple.pn) then
+				if  {CLASS_POOL_ACCESS}.pool.classes.has (tuple.pn) then
 					Result.extend(tuple.pn)
 				end
 			end
@@ -133,35 +150,31 @@ feature -- model operations
 
 	add_class(cn: STRING)
 		require
-			class_name_doesnt_exist: classes[cn] = Void
+			class_name_doesnt_exist:  {CLASS_POOL_ACCESS}.pool.classes[cn] = Void
 			no_current_instruction: current_instruction = Void
 		do
-			classes.put (create {LOUVRE_CLASS}.make (cn), cn)
+			 {CLASS_POOL_ACCESS}.pool.add_new_class (create {LOUVRE_CLASS}.make (cn))
 		end
 
-	add_command(cn: STRING ; command_name: STRING ; ps: ARRAY[TUPLE[pn: STRING; ft: STRING]])
+	add_command(cn: LOUVRE_CLASS ; command_name: STRING ; ps: ARRAY[TUPLE[pn: STRING; ft: LOUVRE_CLASS]])
 		require
-			class_exists: classes.has (cn)
+			class_exists:  {CLASS_POOL_ACCESS}.pool.classes.has (cn.name)
 			non_clashing_names: clashing_names(ps).count = 0
 		do
-			check attached classes[cn] as clazz then
-				clazz.routines.put (create {LOUVRE_COMMAND}.make (clazz, command_name, ps), command_name);
-			end
+			cn.routines.put (create {LOUVRE_COMMAND}.make (cn, command_name, ps), command_name);
 		end
 
 	add_attribute(cn: LOUVRE_CLASS ; fn: STRING ; ft: LOUVRE_CLASS)
 		require
-			class_exists: classes.has (cn.name)
-			valid_type: classes.has (ft.name)
-			non_existing_feature: not classes.has (fn)
+			class_exists: {CLASS_POOL_ACCESS}.pool.classes.has (cn.name)
+			valid_type:  {CLASS_POOL_ACCESS}.pool.classes.has (ft.name)
+			non_existing_feature: not  {CLASS_POOL_ACCESS}.pool.classes.has (fn)
 		do
 			cn.routines.put (create {LOUVRE_ATTRIBUTE}.make (cn, fn, ft), fn);
 		end
 
 	add_query(cn: LOUVRE_CLASS ; fn: STRING ; ps: ARRAY[TUPLE[pn: STRING; pt: LOUVRE_CLASS]] ; rt: LOUVRE_CLASS)
 		require
-			valid_type: classes.has (rt.name)
-			non_existing_feature: not classes.has (fn)
 			non_clashing_names: clashing_names(ps).count = 0
 		do
 			cn.routines.put (create {LOUVRE_QUERY}.make (cn, fn, ps, rt), fn);
@@ -173,8 +186,15 @@ feature -- model operations
 			status := s
 		end
 
+	set_out(s: STRING)
+		do
+			out := s
+		end
+
 feature -- queries
-	out : STRING
+	out: STRING
+
+	to_string : STRING
 		do
 			Result := "  Status: " + status + "%N"
 			Result := Result + "  Number of classes being specified: " + user_classes.count.out + "%N"

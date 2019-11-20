@@ -18,11 +18,12 @@ feature -- command
 			-- perform some update on the model state
 			if attached model.current_instruction as ci then
 				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
-			elseif model.classes.has (cn) then
+			elseif  {CLASS_POOL_ACCESS}.pool.classes.has (cn) then
 				model.set_status ("Error (" + cn + " is already an existing class name).")
 			else
 				model.add_class(cn)
 				model.set_status("OK.")
+				model.set_out (model.to_string)
 			end
 
 			model.default_update

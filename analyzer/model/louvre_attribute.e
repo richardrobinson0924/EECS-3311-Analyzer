@@ -7,18 +7,22 @@ note
 class
 	LOUVRE_ATTRIBUTE
 inherit
-	LOUVRE_ROUTINE redefine out end
+	LOUVRE_RETURNABLE_ROUTINE redefine out end
 
 create
 	make
 
 feature
-	type_class: LOUVRE_CLASS
 	lclass: LOUVRE_CLASS
 
 	out: STRING
 		do
-			Result := "        " + "+ " + name + ": " + type_class.name
+			Result := "        " + "+ " + name + ": " + return_type.name
+		end
+
+	java_string: STRING
+		do
+			Result := "    " + {CLASS_POOL_ACCESS}.pool.get_java_name(return_type) + " " + name + ";"
 		end
 
 feature {NONE} -- Initialization
@@ -28,9 +32,10 @@ feature {NONE} -- Initialization
 		do
 			lclass := lclass_
 			name := attribute_name_
-			type_class := type_class_
+			return_type := type_class_
 
 			create assignment_instructions.make (0)
+			create parameters.make_empty
 		end
 
 end

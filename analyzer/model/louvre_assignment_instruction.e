@@ -22,6 +22,11 @@ feature -- Queries
 			Result := "" + var + " := " + expression.to_string
 		end
 
+	java_string: STRING
+		do
+			Result := var + " = " + expression.to_string + ";"
+		end
+
 feature {NONE} -- Initialization
 
 	make(lclass_: LOUVRE_CLASS; routine_: LOUVRE_ROUTINE; var_: STRING)

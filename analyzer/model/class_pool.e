@@ -22,12 +22,24 @@ feature
 			check attached classes[key] as clazz then Result := clazz end
 		end
 
+	get_java_name(clazz: LOUVRE_CLASS): STRING
+		do
+			if clazz.equals (get("INTEGER")) then
+				Result := "int"
+			elseif clazz.equals (get("BOOLEAN")) then
+				Result := "boolean"
+			else
+				Result := clazz.name
+			end
+		end
+
 feature {CLASS_POOL_ACCESS}
 	make
 		do
 			create classes.make(0)
 			classes.extend(create {LOUVRE_CLASS}.make("INTEGER"), "INTEGER")
 			classes.extend(create {LOUVRE_CLASS}.make("BOOLEAN"), "BOOLEAN")
+			classes.extend(create {LOUVRE_CLASS}.make("NONE"), "NONE")
 		end
 
 end

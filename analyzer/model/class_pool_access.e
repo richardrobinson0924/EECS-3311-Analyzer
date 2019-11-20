@@ -15,6 +15,8 @@ feature
 	pool: CLASS_POOL
 		once
 			create Result.make
+		ensure
+			instance_free: class
 		end
 
 feature {NONE} -- Initialization

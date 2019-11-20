@@ -91,11 +91,6 @@ feature
 			Result := Result + ")"
 		end
 
-	to_string_alt: STRING
-		do
-			Result := ""
-		end
-
 feature {NONE} -- Initialization
 
 	make(operator_: LOUVRE_OPERATOR)
@@ -104,6 +99,8 @@ feature {NONE} -- Initialization
 			operator := operator_
 			left := Void
 			right := Void
+
+		--	return_type := operator.return_type
 		end
 
 end
