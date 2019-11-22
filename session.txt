@@ -1,5 +1,7 @@
 add_class("A")
-add_attribute("A","i","INTEGER")
-
-add_command("A","set_i",<<["x", "INTEGER"], ["y", "INTEGER"]>>)
-add_assignment_instruction("A","set_i","i")
+type_check
+add_class("B")
+add_query("A", "qa", <<>>, "att")
+add_attribute("A", "att", "INTEGER")
+type_check
+add_query("A", "qa", <<>>, "att")

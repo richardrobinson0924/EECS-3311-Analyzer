@@ -36,6 +36,11 @@ feature
 			Result := True
 		end
 
+	return_type: LOUVRE_CLASS
+		do
+			Result := {CLASS_POOL_ACCESS}.pool.get("NONE")
+		end
+
 feature {NONE} -- Initialization
 
 	make(chain_: ITERABLE[STRING])

@@ -17,7 +17,7 @@ feature -- command
 				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
 			else
 				model.set_status ("OK.")
-				model.set_out ("")
+				model.type_check
 			end
 
 			-- perform some update on the model state

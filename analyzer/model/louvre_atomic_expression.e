@@ -47,13 +47,21 @@ feature
 		end
 
 
-
+	return_type: LOUVRE_CLASS
+		do
+			if attached operand as op then
+				Result := op.return_type
+			else
+				Result := {CLASS_POOL_ACCESS}.pool.get ("NONE")
+			end
+		end
 
 feature {NONE} -- Initialization
 
 	make
 			-- Initialization for `Current'.
 		do
+
 		end
 
 end

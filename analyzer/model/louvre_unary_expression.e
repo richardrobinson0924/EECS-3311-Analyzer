@@ -50,6 +50,11 @@ feature
 			end
 		end
 
+	return_type: LOUVRE_CLASS
+		do
+			Result := operator.return_type
+		end
+
 
 feature {NONE} -- Initialization
 
@@ -58,7 +63,6 @@ feature {NONE} -- Initialization
 		do
 			operator := operator_
 			operand := Void
-			return_type := operator.return_type
 		end
 
 end

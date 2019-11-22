@@ -12,6 +12,12 @@ inherit
 create
 	make_value
 
+feature
+	return_type: LOUVRE_CLASS
+		once
+			Result := {CLASS_POOL_ACCESS}.pool.get ("BOOLEAN")
+		end
+
 feature {NONE} -- Initialization
 
 	make_value(i: BOOLEAN)
@@ -20,8 +26,6 @@ feature {NONE} -- Initialization
 			value := i
 			name := "BOOLEAN"
 			create routines.make (0)
-
-			return_type := {CLASS_POOL_ACCESS}.pool.get ("INTEGER")
 		end
 
 end

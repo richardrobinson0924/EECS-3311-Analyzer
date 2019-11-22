@@ -91,6 +91,11 @@ feature
 			Result := Result + ")"
 		end
 
+	return_type: LOUVRE_CLASS
+		do
+			Result := operator.return_type
+		end
+
 feature {NONE} -- Initialization
 
 	make(operator_: LOUVRE_BINARY_OPERATOR)
@@ -99,8 +104,6 @@ feature {NONE} -- Initialization
 			operator := operator_
 			left := Void
 			right := Void
-
-			return_type := operator.return_type
 		end
 
 end

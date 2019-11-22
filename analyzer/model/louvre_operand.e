@@ -9,6 +9,7 @@ deferred class
 
 feature
 	return_type: LOUVRE_CLASS
+	deferred end
 
 	to_string: STRING
 	deferred end
