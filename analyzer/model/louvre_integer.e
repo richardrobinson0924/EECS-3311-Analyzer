@@ -20,6 +20,8 @@ feature {NONE} -- Initialization
 			value := i
 			name := "INTEGER"
 			create routines.make (0)
+
+			return_type := {CLASS_POOL_ACCESS}.pool.get ("INTEGER")
 		end
 
 end

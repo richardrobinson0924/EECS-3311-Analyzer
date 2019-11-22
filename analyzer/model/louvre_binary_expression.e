@@ -17,7 +17,7 @@ feature
 
 	right: detachable LOUVRE_OPERAND
 
-	operator: LOUVRE_OPERATOR
+	operator: LOUVRE_BINARY_OPERATOR
 
 	set_next_null_operand_to(newOperand: LOUVRE_OPERAND)
 		do
@@ -93,14 +93,14 @@ feature
 
 feature {NONE} -- Initialization
 
-	make(operator_: LOUVRE_OPERATOR)
+	make(operator_: LOUVRE_BINARY_OPERATOR)
 			-- Initialization for `Current'.
 		do
 			operator := operator_
 			left := Void
 			right := Void
 
-		--	return_type := operator.return_type
+			return_type := operator.return_type
 		end
 
 end

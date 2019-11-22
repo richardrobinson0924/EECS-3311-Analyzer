@@ -65,6 +65,24 @@ feature -- model operations
 			end
 		end
 
+	type_check
+		local
+			s: STRING
+		do
+			s := ""
+			across user_classes as clazz loop
+				across clazz.item.invalid_assignment_instructions is ai loop
+					s := s + ai.to_string + "%N"
+				end
+			end
+
+			if s.count = 0 then
+				Current.set_out ("PASSED")
+			else
+				Current.set_out (s)
+			end
+		end
+
 	java_string: STRING
 		do
 			Result := ""

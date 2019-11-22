@@ -15,7 +15,7 @@ create
 feature
 	operand: detachable LOUVRE_OPERAND
 
-	operator: LOUVRE_OPERATOR
+	operator: LOUVRE_UNARY_OPERATOR
 
 feature
 	to_string: STRING
@@ -53,14 +53,12 @@ feature
 
 feature {NONE} -- Initialization
 
-	make(operator_: LOUVRE_OPERATOR)
+	make(operator_: LOUVRE_UNARY_OPERATOR)
 			-- Initialization for `Current'.
-		require
-			is_unary_operator: operator_.is_unary
 		do
 			operator := operator_
 			operand := Void
-			type := {LOUVRE_TYPE}.louvre_expression_type
+			return_type := operator.return_type
 		end
 
 end
