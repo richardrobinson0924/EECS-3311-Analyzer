@@ -18,10 +18,11 @@ feature -- command
 				ci.expression.set_next_null_operand_to (create {LOUVRE_BOOLEAN}.make_value (c))
 				model.update_current_instruction
 				model.set_status ("OK.")
-				model.set_out (model.to_string)
 			else
     			model.set_status("Error (An assignment instruction is not currently being specified).")
 			end
+
+			model.set_out (model.to_string)
 
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])

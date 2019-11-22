@@ -26,6 +26,8 @@ feature -- command
     			model.set_status("Error (An assignment instruction is not currently being specified).")
     		end
 
+    		model.set_out (model.to_string)
+
 			-- perform some update on the model state
 
 			model.default_update

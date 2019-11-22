@@ -81,6 +81,7 @@ feature -- command
 				model.set_status ("Error (" + cn + " is not an existing class name).")
 			end
 
+			model.set_out (model.to_string)
 
 			-- perform some update on the model state
 			model.default_update

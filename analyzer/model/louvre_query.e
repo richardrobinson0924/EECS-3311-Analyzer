@@ -17,7 +17,7 @@ feature
 
 	java_string: STRING
 		do
-			Result := "      " + return_type.name + " " + name + "("
+			Result := "    " + return_type.name + " " + name + "("
 
 			across parameters as tuple loop
 				Result := Result + {CLASS_POOL_ACCESS}.pool.get_java_name (tuple.item.type) + " " + tuple.item.name
@@ -27,13 +27,15 @@ feature
 				end
 			end
 
-			Result := Result + ") + {%N"
+			Result := Result + ") {%N"
+			Result := Result + "      " + return_type.name + " Result = null;%N"
 
 			across assignment_instructions is ai loop
-				Result := Result + "        " + ai.java_string + "%N"
+				Result := Result + "      " + ai.java_string + "%N"
 			end
 
-			Result := Result + "}"
+			Result := Result + "      return Result;%N"
+			Result := Result + "    }"
 		end
 
 	out: STRING

@@ -19,6 +19,8 @@ feature -- command
 				model.set_status ("Error (Assignment instruction not currently being specified).")
 			end
 
+			model.set_out (model.to_string)
+
 			-- perform some update on the model state
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])

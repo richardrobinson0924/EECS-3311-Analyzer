@@ -48,6 +48,8 @@ feature -- command
 --				end
 --			end
 
+			model.set_out (model.to_string)
+
 			-- perform some update on the model state
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])

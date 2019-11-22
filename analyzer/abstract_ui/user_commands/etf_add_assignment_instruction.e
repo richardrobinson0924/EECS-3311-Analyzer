@@ -36,6 +36,8 @@ feature -- command
     			model.set_status ("Error (" + cn + " is not an existing class name).")
     		end
 
+    		model.set_out (model.to_string)
+
 			model.default_update
 			etf_cmd_container.on_change.notify ([Current])
     	end

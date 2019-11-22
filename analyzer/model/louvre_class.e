@@ -27,10 +27,15 @@ feature -- Queries
 
 			across routines as routine loop
 				across routine.item.assignment_instructions as ai loop
-					if not (attached attributes[ai.item.var] as lhs_att and then attached get_type_of_expression(routine.item, ai.item.expression) as rhs and then lhs_att.return_type.equals (rhs)) then
+					if ai.item.var ~ "Result" and attached {LOUVRE_QUERY} routine as query then
+						if not (attached get_type_of_expression(routine.item, ai.item.expression) as rhs and then query.return_type.equals (rhs)) then
+							Result.extend (ai.item)
+						end
+					elseif not (attached attributes[ai.item.var] as lhs_att and then attached get_type_of_expression(routine.item, ai.item.expression) as rhs and then lhs_att.return_type.equals (rhs)) then
 						Result.extend (ai.item)
 					end
 				end
+				
 			end
 		end
 
@@ -54,11 +59,20 @@ feature -- Queries
 						t2 := ar.return_type
 					end
 
-					if lbee.operator.op1_type.equals (t1) and lbee.operator.op2_type.equals (t2) then
-						Result := lbee.operator.return_type
+					if lbee.operator.equals ({LOUVRE_BINARY_OPERATOR}.equals_op) then
+						if attached t1 as at1 and then attached t2 as at2 and then at1.equals (at2) then
+							Result := lbee.operator.return_type
+						else
+							Result := Void
+						end
 					else
-						Result := Void
+						if lbee.operator.op1_type.equals (t1) and lbee.operator.op2_type.equals (t2) then
+							Result := lbee.operator.return_type
+						else
+							Result := Void
+						end
 					end
+
 				end
 			elseif attached {LOUVRE_UNARY_EXPRESSION} expression as luee then
 				check attached luee.operand as op then

@@ -68,19 +68,25 @@ feature -- model operations
 	type_check
 		local
 			s: STRING
+			list: LINKED_LIST[LOUVRE_ASSIGNMENT_INSTRUCTION]
 		do
 			s := ""
 			across user_classes as clazz loop
-				across clazz.item.invalid_assignment_instructions is ai loop
-					s := s + ai.to_string + "%N"
+				list := clazz.item.invalid_assignment_instructions
+
+				if list.count = 0 then
+					s := s + "  class " + clazz.item.name + " is type-correct.%N"
+				else
+					s := s + "  class " + clazz.item.name + " is not type-correct:%N"
+					across list is ai loop
+						s := s + "    " + ai.var + " = " + ai.expression.to_string + " in routine " + ai.routine.name + " is not type-correct.%N"
+					end
 				end
 			end
 
-			if s.count = 0 then
-				Current.set_out ("PASSED")
-			else
-				Current.set_out (s)
-			end
+			s.remove_tail (1)
+
+			Current.set_out (s)
 		end
 
 	java_string: STRING
@@ -90,6 +96,8 @@ feature -- model operations
 			across user_classes is clazz loop
 				Result := Result + clazz.java_string
 			end
+
+			Result.remove_tail (1)
 		end
 
 	duplicate_names(ps: ITERABLE[TUPLE[pn: STRING; ft: ANY]]): LINKED_LIST[STRING]

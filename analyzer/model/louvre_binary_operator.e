@@ -117,11 +117,11 @@ feature
 			instance_free: class
 		end
 
-	equals(overloaded_type: LOUVRE_ATOMIC_OPERAND[ANY]): LOUVRE_BINARY_OPERATOR
+	equals_op: LOUVRE_BINARY_OPERATOR
 		once
 			create Result.make (
 				"=",
-				overloaded_type,
+				{CLASS_POOL_ACCESS}.pool.get ("NONE"),
 				{CLASS_POOL_ACCESS}.pool.get("BOOLEAN")
 			)
 		ensure
