@@ -20,8 +20,8 @@ feature
 		once
 			create Result.make (
 				"!",
-				{CLASS_POOL_ACCESS}.pool.get ("INTEGER"),
-				{CLASS_POOL_ACCESS}.pool.get ("INTEGER")
+				{CLASS_POOL_ACCESS}.pool.integer,
+				{CLASS_POOL_ACCESS}.pool.integer
 			)
 		ensure
 			instance_free: class
@@ -31,8 +31,8 @@ feature
 		once
 			create Result.make (
 				"~",
-				{CLASS_POOL_ACCESS}.pool.get ("BOOLEAN"),
-				{CLASS_POOL_ACCESS}.pool.get ("BOOLEAN")
+				{CLASS_POOL_ACCESS}.pool.boolean,
+				{CLASS_POOL_ACCESS}.pool.boolean
 			)
 		ensure
 			instance_free: class

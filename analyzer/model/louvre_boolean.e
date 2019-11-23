@@ -15,7 +15,7 @@ create
 feature
 	return_type: LOUVRE_CLASS
 		once
-			Result := {CLASS_POOL_ACCESS}.pool.get ("BOOLEAN")
+			Result := {CLASS_POOL_ACCESS}.pool.boolean
 		end
 
 feature {NONE} -- Initialization

@@ -15,7 +15,7 @@ create
 feature
 	return_type: LOUVRE_CLASS
 		once
-			Result := {CLASS_POOL_ACCESS}.pool.get ("INTEGER")
+			Result := {CLASS_POOL_ACCESS}.pool.integer
 		end
 
 feature {NONE} -- Initialization

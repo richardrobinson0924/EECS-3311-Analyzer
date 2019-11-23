@@ -16,8 +16,10 @@ feature
 	lclass: LOUVRE_CLASS
 
 	java_string: STRING
+		local
+			default_value: STRING
 		do
-			Result := "    " + return_type.name + " " + name + "("
+			Result := "    " + {CLASS_POOL_ACCESS}.pool.get_java_name(return_type) + " " + name + "("
 
 			across parameters as tuple loop
 				Result := Result + {CLASS_POOL_ACCESS}.pool.get_java_name (tuple.item.type) + " " + tuple.item.name
@@ -28,7 +30,17 @@ feature
 			end
 
 			Result := Result + ") {%N"
-			Result := Result + "      " + return_type.name + " Result = null;%N"
+
+			default_value := "null"
+			if return_type.equals ({CLASS_POOL_ACCESS}.pool.integer) then
+				default_value := "0"
+			end
+			if return_type.equals ({CLASS_POOL_ACCESS}.pool.boolean) then
+				default_value := "false"
+			end
+
+
+			Result := Result + "      " + {CLASS_POOL_ACCESS}.pool.get_java_name(return_type) + " Result = " + default_value + ";%N"
 
 			across assignment_instructions is ai loop
 				Result := Result + "      " + ai.java_string + "%N"

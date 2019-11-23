@@ -18,16 +18,13 @@ feature -- Queries
 			Result := attached other as ao and then name ~ ao.name
 		end
 
-	-- Here you go Aamna
-	-- Tips: you'll probs need a bunch of helper features
-	--       you'll need to access the class pool
 	invalid_assignment_instructions: LINKED_LIST[LOUVRE_ASSIGNMENT_INSTRUCTION]
 		do
 			create Result.make
 
 			across routines as routine loop
 				across routine.item.assignment_instructions as ai loop
-					if ai.item.var ~ "Result" and attached {LOUVRE_QUERY} routine as query then
+					if ai.item.var ~ "Result" and attached {LOUVRE_QUERY} routine.item as query then
 						if not (attached get_type_of_expression(routine.item, ai.item.expression) as rhs and then query.return_type.equals (rhs)) then
 							Result.extend (ai.item)
 						end
@@ -35,7 +32,7 @@ feature -- Queries
 						Result.extend (ai.item)
 					end
 				end
-				
+
 			end
 		end
 

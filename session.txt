@@ -1,7 +1,15 @@
 add_class("A")
-type_check
 add_class("B")
-add_query("A", "qa", <<>>, "att")
-add_attribute("A", "att", "INTEGER")
+add_attribute("A", "b", "B")
+add_query("A", "q1", <<["i", "INTEGER"]>>, "A")
+add_call_chain(<<"b", "a">>)
+add_assignment_instruction("A", "q1", "Result")
+add_call_chain(<<"b", "a">>)
+generate_java_code
 type_check
-add_query("A", "qa", <<>>, "att")
+add_attribute("B", "a", "A")
+add_command("B", "c1", <<>>)
+add_assignment_instruction("B", "c1", "a")
+add_call_chain(<<"b", "a">>)
+generate_java_code
+type_check

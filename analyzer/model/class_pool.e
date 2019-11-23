@@ -22,12 +22,22 @@ feature
 			check attached classes[key] as clazz then Result := clazz end
 		end
 
+	integer: LOUVRE_CLASS
+		do
+			Result := get("INTEGER")
+		end
+
+	boolean: LOUVRE_CLASS
+		do
+			Result := get("BOOLEAN")
+		end
+
 	get_java_name(clazz: LOUVRE_CLASS): STRING
 		do
-			if clazz.equals (get("INTEGER")) then
+			if clazz.equals (Current.integer) then
 				Result := "int"
-			elseif clazz.equals (get("BOOLEAN")) then
-				Result := "boolean"
+			elseif clazz.equals (Current.boolean) then
+				Result := "bool"
 			else
 				Result := clazz.name
 			end
