@@ -6,7 +6,6 @@ note
 
 class
 	LOUVRE_ATOMIC_EXPRESSION
-
 inherit
 	LOUVRE_EXPRESSION
 
@@ -14,7 +13,14 @@ create
 	make
 
 feature
-	operand: detachable LOUVRE_OPERAND
+	operand: detachable LOUVRE_EXPRESSION
+
+	actual_return_type: detachable LOUVRE_CLASS
+		do
+			check attached operand as op then
+				Result := op.actual_return_type
+			end
+		end
 
 	to_string: STRING
 		do
@@ -24,14 +30,12 @@ feature
 			end
 		end
 
-	set_next_null_operand_to(newOperand: LOUVRE_OPERAND)
+	set_next_null_operand_to(newOperand: LOUVRE_EXPRESSION)
 		do
-			if operand = Void then
-				operand := newOperand
-			elseif attached {LOUVRE_EXPRESSION} operand as leo then
-				leo.set_next_null_operand_to (newOperand)
+			if attached operand as op then
+				op.set_next_null_operand_to (newOperand)
 			else
-				check False end
+				operand := newOperand
 			end
 		end
 
@@ -39,20 +43,10 @@ feature
 		do
 			Result := True
 
-			if operand = Void then
-				Result := False
-			elseif attached {LOUVRE_EXPRESSION} operand as leo then
-				Result := leo.is_complete
-			end
-		end
-
-
-	return_type: LOUVRE_CLASS
-		do
 			if attached operand as op then
-				Result := op.return_type
+				Result := op.is_complete
 			else
-				Result := {CLASS_POOL_ACCESS}.pool.get ("NONE")
+				Result := False
 			end
 		end
 

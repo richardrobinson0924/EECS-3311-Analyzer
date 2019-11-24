@@ -7,8 +7,8 @@ note
 deferred class
 	LOUVRE_ATOMIC_OPERAND[G -> ANY]
 inherit
-	LOUVRE_OPERAND
-	LOUVRE_CLASS redefine to_string end
+	LOUVRE_EXPRESSION
+
 
 feature -- Access
 	value: G

@@ -17,7 +17,7 @@ feature -- command
     			if chain.count = 0 then
     				model.set_status ("Error (Call chain is empty).")
     			else
-    				ci.expression.set_next_null_operand_to (create {LOUVRE_CALL_CHAIN}.make(chain))
+    				ci.expression.set_next_null_operand_to (create {LOUVRE_CALL_CHAIN}.make(chain, ci.routine, ci.lclass))
     				model.update_current_instruction
     				model.set_status ("OK.")
     				model.set_out (model.to_string)

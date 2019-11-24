@@ -13,26 +13,42 @@ create
 	make
 
 feature
-	left: detachable LOUVRE_OPERAND
-
-	right: detachable LOUVRE_OPERAND
+	left: detachable LOUVRE_EXPRESSION
+	right: detachable LOUVRE_EXPRESSION
 
 	operator: LOUVRE_BINARY_OPERATOR
 
-	set_next_null_operand_to(newOperand: LOUVRE_OPERAND)
+	actual_return_type: detachable LOUVRE_CLASS
+		local
+			t1, t2: detachable LOUVRE_CLASS
+		do
+			check attached left as al and then attached right as ar then
+				t1 := al.actual_return_type
+				t2 := ar.actual_return_type
+
+				if operator.equals ({LOUVRE_BINARY_OPERATOR}.equals_op) then
+					if attached t1 as at1 and then attached t2 as at2 and then at1.equals (at2) then
+						Result := operator.return_type
+					else
+						Result := Void
+					end
+				else
+					if operator.op1_type.equals (t1) and operator.op2_type.equals (t2) then
+						Result := operator.return_type
+					else
+						Result := Void
+					end
+				end
+
+			end
+		end
+
+	set_next_null_operand_to(newOperand: LOUVRE_EXPRESSION)
 		do
 			if left = Void then
 				left := newOperand
-			elseif attached {LOUVRE_EXPRESSION} left as left_expression then
-				if not left_expression.is_complete then
-					left_expression.set_next_null_operand_to(newOperand)
-				else
-					if right = Void then
-						right := newOperand
-					elseif attached {LOUVRE_EXPRESSION} right as right_expression then
-						right_expression.set_next_null_operand_to(newOperand)
-					end
-				end
+			elseif attached {LOUVRE_EXPRESSION} left as left_expression and then not left_expression.is_complete then
+				left_expression.set_next_null_operand_to(newOperand)
 			elseif right = Void then
 				right := newOperand
 			elseif attached {LOUVRE_EXPRESSION} right as right_expression then
@@ -44,20 +60,9 @@ feature
 		do
 			Result := True
 
-			if left = Void then
+			if left = Void or right = Void then
 				Result := False
-			elseif attached {LOUVRE_EXPRESSION} left as left_expression then
-			--	Result := left_expression.is_complete
-				if left_expression.is_complete then
-					if right = Void then
-						Result := False
-					elseif attached {LOUVRE_EXPRESSION} right as ler then
-						Result := ler.is_complete
-					end
-				else
-					Result := False
-				end
-			elseif right = Void then
+			elseif attached {LOUVRE_EXPRESSION} left as left_expression and then not left_expression.is_complete then
 				Result := False
 			elseif attached {LOUVRE_EXPRESSION} right as right_expression then
 				Result := right_expression.is_complete
@@ -89,11 +94,6 @@ feature
 			end
 
 			Result := Result + ")"
-		end
-
-	return_type: LOUVRE_CLASS
-		do
-			Result := operator.return_type
 		end
 
 feature {NONE} -- Initialization

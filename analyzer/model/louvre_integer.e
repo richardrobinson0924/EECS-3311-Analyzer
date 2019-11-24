@@ -13,9 +13,17 @@ create
 	make_with_value
 
 feature
-	return_type: LOUVRE_CLASS
+	actual_return_type: LOUVRE_CLASS
 		once
 			Result := {CLASS_POOL_ACCESS}.pool.integer
+		end
+
+	set_next_null_operand_to(newOperand: LOUVRE_EXPRESSION)
+		do end
+
+	is_complete: BOOLEAN
+		once
+			Result := True
 		end
 
 feature {NONE} -- Initialization
@@ -24,8 +32,6 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 		do
 			value := i
-			name := "INTEGER"
-			create routines.make (0)
 		end
 
 end

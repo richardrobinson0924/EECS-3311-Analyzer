@@ -13,11 +13,26 @@ create
 	make
 
 feature
-	operand: detachable LOUVRE_OPERAND
+	operand: detachable LOUVRE_EXPRESSION
 
 	operator: LOUVRE_UNARY_OPERATOR
 
 feature
+	actual_return_type: detachable LOUVRE_CLASS
+		local
+			t1: detachable LOUVRE_CLASS
+		do
+			check attached operand as op then
+				t1 := op.actual_return_type
+
+				if operator.operand_type.equals (t1) then
+					Result := operator.return_type
+				else
+					Result := Void
+				end
+			end
+		end
+
 	to_string: STRING
 		do
 			Result := operator.to_string
@@ -28,14 +43,12 @@ feature
 			end
 		end
 
-	set_next_null_operand_to(newOperand: LOUVRE_OPERAND)
+	set_next_null_operand_to(newOperand: LOUVRE_EXPRESSION)
 		do
-			if operand = Void then
-				operand := newOperand
-			elseif attached {LOUVRE_EXPRESSION} operand as leo then
-				leo.set_next_null_operand_to (newOperand)
+			if attached operand as op then
+				op.set_next_null_operand_to (newOperand)
 			else
-				check False end
+				operand := newOperand
 			end
 		end
 
@@ -43,18 +56,12 @@ feature
 		do
 			Result := True
 
-			if operand = Void then
+			if attached operand as op then
+				Result := op.is_complete
+			else
 				Result := False
-			elseif attached {LOUVRE_EXPRESSION} operand as leo then
-				Result := leo.is_complete
 			end
 		end
-
-	return_type: LOUVRE_CLASS
-		do
-			Result := operator.return_type
-		end
-
 
 feature {NONE} -- Initialization
 
