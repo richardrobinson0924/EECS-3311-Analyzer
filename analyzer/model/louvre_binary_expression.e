@@ -47,11 +47,11 @@ feature
 		do
 			if left = Void then
 				left := newOperand
-			elseif attached {LOUVRE_EXPRESSION} left as left_expression and then not left_expression.is_complete then
+			elseif attached left as left_expression and then not left_expression.is_complete then
 				left_expression.set_next_null_operand_to(newOperand)
 			elseif right = Void then
 				right := newOperand
-			elseif attached {LOUVRE_EXPRESSION} right as right_expression then
+			elseif attached right as right_expression then
 				right_expression.set_next_null_operand_to(newOperand)
 			end
 		end
@@ -62,9 +62,9 @@ feature
 
 			if left = Void or right = Void then
 				Result := False
-			elseif attached {LOUVRE_EXPRESSION} left as left_expression and then not left_expression.is_complete then
+			elseif attached left as left_expression and then not left_expression.is_complete then
 				Result := False
-			elseif attached {LOUVRE_EXPRESSION} right as right_expression then
+			elseif attached right as right_expression then
 				Result := right_expression.is_complete
 			end
 		end
@@ -86,7 +86,7 @@ feature
 			else
 				if left = Void then
 					Result := Result + "nil"
-				elseif attached {LOUVRE_EXPRESSION} left as lel and then not lel.is_complete then
+				elseif attached left as lel and then not lel.is_complete then
 					Result := Result + "nil"
 				else
 					Result := Result + "?"

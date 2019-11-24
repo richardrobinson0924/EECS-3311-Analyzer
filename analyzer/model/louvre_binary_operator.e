@@ -10,7 +10,7 @@ inherit
 	LOUVRE_OPERATOR
 
 create
-	make, make_different_ops
+	make
 
 feature
 	op1_type: LOUVRE_CLASS
@@ -23,7 +23,7 @@ feature
 			create Result.make (
 				"+",
 				{CLASS_POOL_ACCESS}.pool.integer,
-				{CLASS_POOL_ACCESS}.pool.boolean
+				{CLASS_POOL_ACCESS}.pool.integer
 			)
 		ensure
 			instance_free: class
@@ -136,15 +136,6 @@ feature {NONE}
 
 			op1_type := op_type
 			op2_type := op_type
-		end
-
-	make_different_ops(symbol_: STRING; op1_type_, op2_type_: LOUVRE_CLASS; return_type_: LOUVRE_CLASS)
-		do
-			symbol := symbol_
-			return_type := return_type_
-
-			op1_type := op1_type_
-			op2_type := op2_type_
 		end
 
 end

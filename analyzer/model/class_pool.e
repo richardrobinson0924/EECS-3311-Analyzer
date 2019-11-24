@@ -18,6 +18,8 @@ feature
 		end
 
 	get(key: STRING): LOUVRE_CLASS
+		require
+			exists: classes.has (key)
 		do
 			check attached classes[key] as clazz then Result := clazz end
 		end

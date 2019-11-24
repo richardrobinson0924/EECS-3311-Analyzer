@@ -25,20 +25,15 @@ feature -- Queries
 			across routines as routine loop
 				across routine.item.assignment_instructions as ai loop
 					if ai.item.var ~ "Result" and attached {LOUVRE_QUERY} routine.item as query then
-						if not (attached get_type_of_expression(ai.item.expression) as rhs and then query.return_type.equals (rhs)) then
+						if not (attached ai.item.expression.actual_return_type as rhs and then query.return_type.equals (rhs)) then
 							Result.extend (ai.item)
 						end
-					elseif not (attached attributes[ai.item.var] as lhs_att and then attached get_type_of_expression(ai.item.expression) as rhs and then lhs_att.return_type.equals (rhs)) then
+					elseif not (attached attributes[ai.item.var] as lhs_att and then attached ai.item.expression.actual_return_type as rhs and then lhs_att.return_type.equals (rhs)) then
 						Result.extend (ai.item)
 					end
 				end
 
 			end
-		end
-
-	get_type_of_expression(expression: LOUVRE_EXPRESSION): detachable LOUVRE_CLASS
-		do
-			Result := expression.actual_return_type
 		end
 
 
