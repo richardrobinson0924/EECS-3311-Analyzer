@@ -1,16 +1,4 @@
 add_class("A")
-add_attribute("A", "i", "INTEGER")
-add_command("A", "set_i", <<["x", "INTEGER"], ["y", "INTEGER"]>>)
-add_assignment_instruction("A", "set_i", "i")
-multiplication
-addition
-int_value (1)
-int_value (2)
-int_value (3)
-add_assignment_instruction("A", "set_i", "i")
-addition
-add_call_chain(<<"i">>)
-subtraction
-add_call_chain(<<"x">>)
-add_call_chain(<<"y">>)
+add_command("A","c",<<>>)
+add_assignment_instruction("A","c","x")
 type_check

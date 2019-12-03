@@ -14,7 +14,7 @@ feature -- command
 	int_value(c: INTEGER_32)
     	do
     		if attached model.current_instruction as ci then
-				ci.expression.set_next_null_operand_to (create {LOUVRE_INTEGER}.make_with_value (c))
+				model.add_expression (create {LOUVRE_INTEGER}.make_with_value (c))
 				model.update_current_instruction
 				model.set_status ("OK.")
 			else

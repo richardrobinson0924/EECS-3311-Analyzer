@@ -33,6 +33,21 @@ feature -- model attributes
 feature {NONE}
 	status: STRING
 
+	occurances(list: ITERABLE[STRING]; s: STRING): INTEGER
+		local
+			count: INTEGER
+		do
+			count := 0
+
+			across list is element loop
+				if element ~ s then
+					count := count + 1
+				end
+			end
+
+			Result := count
+		end
+
 feature -- model operations
 	user_classes: HASH_TABLE[LOUVRE_CLASS, STRING]
 		local
@@ -66,6 +81,8 @@ feature -- model operations
 		end
 
 	type_check
+		require
+			no_current_instruction: Current.current_instruction = Void
 		local
 			s: STRING
 			list: LINKED_LIST[LOUVRE_ASSIGNMENT_INSTRUCTION]
@@ -143,21 +160,6 @@ feature -- model operations
 			end
 		end
 
-	occurances(list: ITERABLE[STRING]; s: STRING): INTEGER
-		local
-			count: INTEGER
-		do
-			count := 0
-
-			across list is element loop
-				if element ~ s then
-					count := count + 1
-				end
-			end
-
-			Result := count
-		end
-
 	clashing_names(parameters: ARRAY[TUPLE[pn: STRING; pt: ANY]]): LINKED_LIST[STRING]
 		do
 			create Result.make
@@ -182,26 +184,57 @@ feature -- model operations
 			 {CLASS_POOL_ACCESS}.pool.add_new_class (create {LOUVRE_CLASS}.make (cn))
 		end
 
+	add_call_chain(chain: LOUVRE_CALL_CHAIN)
+		require
+			current_instruction: attached current_instruction
+			non_empty_cahin: chain.chain.count = 0
+		do
+			check attached Current.current_instruction as ci then
+				ci.expression.set_next_null_operand_to (chain)
+			end
+		end
+
+	add_expression(expression: LOUVRE_EXPRESSION)
+		require
+			current_instruction: attached current_instruction
+		do
+			check attached Current.current_instruction as ci then
+				ci.expression.set_next_null_operand_to (expression)
+			end
+		end
+
+
 	add_command(cn: LOUVRE_CLASS ; command_name: STRING ; ps: ARRAY[TUPLE[pn: STRING; ft: LOUVRE_CLASS]])
 		require
+			no_current_instruction: current_instruction = Void
 			class_exists:  {CLASS_POOL_ACCESS}.pool.classes.has (cn.name)
-			non_clashing_names: clashing_names(ps).count = 0
+			non_existing_feature: not cn.routines.has (command_name)
+			no_invalid_classes: across ps is tuple all {CLASS_POOL_ACCESS}.pool.classes.has (tuple.ft.name) end
+			no_clashing_classes: across ps is tuple all not {CLASS_POOL_ACCESS}.pool.classes.has (tuple.pn) end
+			no_duplicate_names: duplicate_names(ps).count = 0
 		do
 			cn.routines.put (create {LOUVRE_COMMAND}.make (cn, command_name, ps), command_name);
 		end
 
 	add_attribute(cn: LOUVRE_CLASS ; fn: STRING ; ft: LOUVRE_CLASS)
 		require
+			no_current_instruction: current_instruction = Void
 			class_exists: {CLASS_POOL_ACCESS}.pool.classes.has (cn.name)
-			valid_type:  {CLASS_POOL_ACCESS}.pool.classes.has (ft.name)
 			non_existing_feature: not  {CLASS_POOL_ACCESS}.pool.classes.has (fn)
+			valid_type:  {CLASS_POOL_ACCESS}.pool.classes.has (ft.name)
 		do
 			cn.routines.put (create {LOUVRE_ATTRIBUTE}.make (cn, fn, ft), fn);
 		end
 
 	add_query(cn: LOUVRE_CLASS ; fn: STRING ; ps: ARRAY[TUPLE[pn: STRING; pt: LOUVRE_CLASS]] ; rt: LOUVRE_CLASS)
 		require
-			non_clashing_names: clashing_names(ps).count = 0
+			no_current_instruction: current_instruction = Void
+			class_exists: {CLASS_POOL_ACCESS}.pool.classes.has (cn.name)
+			non_existing_feature: not cn.routines.has (fn)
+			no_invalid_classes: across ps is tuple all {CLASS_POOL_ACCESS}.pool.classes.has (tuple.pt.name) end
+			non_clashing_names: across ps is tuple all not {CLASS_POOL_ACCESS}.pool.classes.has (tuple.pn) end
+			no_duplicate_names: duplicate_names(ps).count = 0
+			valid_type:  {CLASS_POOL_ACCESS}.pool.classes.has (rt.name)
 		do
 			cn.routines.put (create {LOUVRE_QUERY}.make (cn, fn, ps, rt), fn);
 		end

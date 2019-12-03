@@ -14,7 +14,7 @@ feature -- command
 	subtraction
     	do
     		if attached model.current_instruction as ci then
-				ci.expression.set_next_null_operand_to (create {LOUVRE_BINARY_EXPRESSION}.make ({LOUVRE_BINARY_OPERATOR}.subtraction))
+				model.add_expression (create {LOUVRE_BINARY_EXPRESSION}.make ({LOUVRE_BINARY_OPERATOR}.subtraction))
 			else
 				model.set_status ("Error (Assignment instruction not currently being specified).")
 			end

@@ -15,6 +15,7 @@ feature -- command
     	do
     		if attached model.current_instruction as ci then
 				model.set_status ("Error (An assignment instruction is currently being specified for routine " + ci.routine.name + " in class " + ci.lclass.name + ").")
+				model.set_out (model.to_string)
 			else
 				model.set_status ("OK.")
 				model.type_check
